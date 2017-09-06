@@ -1,31 +1,11 @@
-# Tune the TCP stack on Isilon.
-
-# run sh ./tcp_tune_isilon.sh Half as root on OneFS.
-
-# Supply arg 1 as one of "Default", "Half" or "Max", anything else will show the current settings.
-SET_TO_APPLY="$1"
-
-if [ "${SET_TO_APPLY}" == "Max" ]; then
-# Max (10 GbE)
-  MAXSOCKBUF=16777216
-  SENDBUF_MAX=16777216
-RECVBUF_MAX=16777216
-  SENDBUF_INC=16384
-  RECVBUF_INC=16384
-  SENDSPACE=1048576
-  RECVSPACE=1048576
-elif [ "${SET_TO_APPLY}" == "Half" ]; then
-  # Half of 10 GbE maximums
-  MAXSOCKBUF=8388608
-  SENDBUF_MAX=8388608
-hop-isi-c-2# cat tcp-tune-isilon.sh
 # Author:  Boni Bruno, EMC
 # Date: 5/5/2016
 # Tune the TCP stack on Isilon.
 
-# run sh ./tcp_tune_isilon.sh Half as root on OneFS.
+# run sh ./tcp_tune_isilon.sh [Default, Half, or Max] as root on OneFS.
 
 # Supply arg 1 as one of "Default", "Half" or "Max", anything else will show the current settings.
+#
 SET_TO_APPLY="$1"
 
 if [ "${SET_TO_APPLY}" == "Max" ]; then
