@@ -10,26 +10,28 @@ SET_TO_APPLY="$1"
 
 if [ "${SET_TO_APPLY}" == "Max" ]; then
 # Max (10 GbE)
-  MAXSOCKBUF=16777216
-  SENDBUF_MAX=16777216
-  RECVBUF_MAX=16777216
+  MAXSOCKBUF=104857600
+  SENDBUF_MAX=52428800
+  RECVBUF_MAX=52428800
   SENDBUF_INC=16384
-  RECVBUF_INC=16384
-  SENDSPACE=1048576
-  RECVSPACE=1048576
-  COALESCER_HWM=524288000
-  COALESCER_LWM=262144000
+  RECVBUF_INC=32768
+  SENDSPACE=26214400
+  RECVSPACE=26214400
+  MSSDFLT=8948
+ # COALESCER_HWM=524288000
+ # COALESCER_LWM=262144000
 elif [ "${SET_TO_APPLY}" == "Half" ]; then
   # Half of 10 GbE maximums
-  MAXSOCKBUF=8388608
-  SENDBUF_MAX=8388608
-  RECVBUF_MAX=8388608
-  SENDBUF_INC=16384
+  MAXSOCKBUF=52428800
+  SENDBUF_MAX=26214400
+  RECVBUF_MAX=26214400
+  SENDBUF_INC=8192
   RECVBUF_INC=16384
-  SENDSPACE=524288
-  RECVSPACE=524288
-  COALESCER_HWM=402653184
-  COALESCER_LWM=201326592
+  SENDSPACE=13107200
+  RECVSPACE=13107200
+  MSSDFLT=4474
+ # COALESCER_HWM=402653184
+ # COALESCER_LWM=201326592
 elif [ "${SET_TO_APPLY}" == "Default" ]; then
   # Defaults (1 GbE)
   MAXSOCKBUF=2097152
@@ -39,8 +41,9 @@ elif [ "${SET_TO_APPLY}" == "Default" ]; then
   RECVBUF_INC=16384
   SENDSPACE=131072
   RECVSPACE=131072
-  COALESCER_HWM=47185920
-  COALESCER_LWM=41943040
+  MSSDFLT=512
+ # COALESCER_HWM=209715200
+ # COALESCER_LWM=178257920
 else
   SET_TO_APPLY=""
 fi
@@ -81,8 +84,9 @@ else
   isi_sysctl_cluster net.inet.tcp.recvbuf_inc=${RECVBUF_INC}
   isi_sysctl_cluster net.inet.tcp.sendspace=${SENDSPACE}
   isi_sysctl_cluster net.inet.tcp.recvspace=${RECVSPACE}
-  isi_sysctl_cluster efs.bam.coalescer.insert_hwm=${COALESCER_HWM}
-  isi_sysctl_cluster efs.bam.coalescer.insert_lwm=${COALESCER_LWM}
+#  isi_sysctl_cluster efs.bam.coalescer.insert_hwm=${COALESCER_HWM}
+#  isi_sysctl_cluster efs.bam.coalescer.insert_lwm=${COALESCER_LWM}
+  isi_sysctl_cluster net.inet.tcp.mssdflt=${MSSDFLT}
 
   echo ""
   echo "TCP sysctls after..."
@@ -95,7 +99,7 @@ else
   isi_sysctl_cluster net.inet.tcp.recvspace
   isi_sysctl_cluster efs.bam.coalescer.insert_hwm
   isi_sysctl_cluster efs.bam.coalescer.insert_lwm
+  isi_sysctl_cluster net.inet.tcp.mssdflt
 
 fi
 echo ""
-
