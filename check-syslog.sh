@@ -4,12 +4,6 @@
 # run from root on Isilon OneFS.
 
 
-# Contents:
-#
-#
-#
-
-
 echo ''
 echo "Creating base directory for gather."
 echo ''
